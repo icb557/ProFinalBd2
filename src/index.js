@@ -1,10 +1,9 @@
 import app from './app.js'
+import { DBConnection } from './database/connection.js'
 
-try {
-  const PORT = process.env.PORT || 3000
-  app.listen(PORT, () => {
-    console.log(`app running in port ${PORT}`)
-  })
-} catch (error) {
-  console.error('Error connecting to the database', error)
-}
+const PORT = process.env.PORT || 3000
+await DBConnection()
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
