@@ -1,36 +1,158 @@
-import { Person } from '../models/person.model.js'
-import { City } from '../models/city.model.js'
+// import { Comment } from '../models/comment.model.js'
+import { Event } from '../models/event.model.js'
+// import { Person } from '../models/person.model.js'
 
 export const populateDB = async () => {
   try {
-    const city1 = new City({ name: 'New York', state: 'NY', country: 'USA' })
-    const city2 = new City({ name: 'Los Angeles', state: 'CA', country: 'USA' })
+    // People data
+    // const people = await Person.create([
+    //   {
+    //     userName: 'john_doe',
+    //     firstName: 'John',
+    //     lastName1: 'Doe',
+    //     lastName2: 'Smith',
+    //     role: 'User',
+    //     email: 'john@example.com',
+    //     city: {
+    //       name: 'Medellín',
+    //       state: 'Antioquia',
+    //       country: 'Colombia'
+    //     }
+    //   },
+    //   {
+    //     userName: 'jane_doe',
+    //     firstName: 'Jane',
+    //     lastName1: 'Doe',
+    //     lastName2: 'Smith',
+    //     role: 'Admin',
+    //     email: 'jane@example.com',
+    //     city: {
+    //       name: 'Medellín',
+    //       state: 'Antioquia',
+    //       country: 'Colombia'
+    //     }
+    //   }
+    // ])
 
-    await city1.save()
-    await city2.save()
+    // // Comments data
+    // const comments = await Comment.create([
+    //   {
+    //     user: people[0]._id,
+    //     text: 'hahahahahahahahahaha'
+    //   },
+    //   {
+    //     user: people[1]._id,
+    //     text: 'ooooooooooooooooooooo'
+    //   }
+    // ])
 
-    const person1 = new Person({
-      userName: 'john_doe',
-      firstName: 'John',
-      lastName1: 'Doe',
-      lastName2: 'Smith',
-      role: 'User',
-      email: 'john@example.com',
-      city: city1._id
+    // // Events data
+    // await Event.create([
+    //   {
+    //     title: 'Evento1',
+    //     description: 'rrrrrrrrrrrrrrrr',
+    //     categories: ['hola', 'mundo'],
+    //     date: new Date(),
+    //     place: {
+    //       name: 'Coliseo',
+    //       address: '123 Main St',
+    //       city: {
+    //         name: 'Medellín',
+    //         state: 'Antioquia',
+    //         country: 'Colombia'
+    //       }
+    //     },
+    //     lecturers: people.map(p => p._id),
+    //     audience: people.map(p => p._id),
+    //     faculty: 'Ingeniería',
+    //     program: 'Ingeniería Informática',
+    //     comments: comments.map(c => c._id)
+    //   }
+    // ])
+
+    await Event.create({
+      title: 'Evento1',
+      description: 'rrrrrrrrrrrrrrrr',
+      categories: ['hola', 'mundo'],
+      date: new Date(),
+      place: {
+        name: 'Coliseo',
+        address: '123 Main St',
+        city: {
+          name: 'Medellín',
+          state: 'Antioquia',
+          country: 'Colombia'
+        }
+      },
+      lecturers: [
+        {
+          userName: 'john_doe',
+          firstName: 'John',
+          lastName1: 'Doe',
+          lastName2: 'Smith',
+          role: 'User',
+          email: 'john@example.com',
+          city: {
+            name: 'Medellín',
+            state: 'Antioquia',
+            country: 'Colombia'
+          }
+        },
+        {
+          userName: 'jane_doe',
+          firstName: 'Jane',
+          lastName1: 'Doe',
+          lastName2: 'Smith',
+          role: 'Admin',
+          email: 'jane@example.com',
+          city: {
+            name: 'Medellín',
+            state: 'Antioquia',
+            country: 'Colombia'
+          }
+        }
+      ],
+      audience: [
+        {
+          userName: 'john_doe',
+          firstName: 'John',
+          lastName1: 'Doe',
+          lastName2: 'Smith',
+          role: 'User',
+          email: 'john@example.com',
+          city: {
+            name: 'Medellín',
+            state: 'Antioquia',
+            country: 'Colombia'
+          }
+        },
+        {
+          userName: 'jane_doe',
+          firstName: 'Jane',
+          lastName1: 'Doe',
+          lastName2: 'Smith',
+          role: 'Admin',
+          email: 'jane@example.com',
+          city: {
+            name: 'Medellín',
+            state: 'Antioquia',
+            country: 'Colombia'
+          }
+        }
+      ],
+      faculty: 'Ingeniería',
+      program: 'Ingeniería Informática',
+      comments: [
+        {
+          user: 'juan@gmail.com',
+          text: 'hahahahahahahahahaha'
+        },
+        {
+          user: 'juan@gmail.com',
+          text: 'ooooooooooooooooooooo'
+        }
+      ]
     })
-
-    const person2 = new Person({
-      userName: 'jane_doe',
-      firstName: 'Jane',
-      lastName1: 'Doe',
-      lastName2: 'Smith',
-      role: 'Admin',
-      email: 'jane@example.com',
-      city: city2._id
-    })
-
-    await person1.save()
-    await person2.save()
 
     console.log('Database seeded with initial data')
   } catch (error) {

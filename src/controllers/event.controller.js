@@ -1,26 +1,16 @@
 // import { City } from '../models/city.model.js'
-import { Person } from '../models/person.model.js'
+import { Event } from '../models/event.model.js'
 
 export class EventController {
   createEvent = async (req, res) => {
     try {
-      const newPerson = {
-        userName: 'pedro1',
-        firstName: 'pedro',
-        lastName1: 'rios',
-        lastName2: 'perez',
-        role: 'asistente',
-        email: 'pedro@gmail.com',
-        city: '665bb7b6aed0f0d0b2e6ba3f'
+      const { title, place, date } = req.body
+      const event = await Event.findOne({ title, place, date })
+      if (!event) {
+        const newEvent = await Event.create(req.body)
+        return res.status(201).json(newEvent)
       }
-      const person = await Person.create(newPerson)
-      // const newCity = {
-      //   name: 'Medellin',
-      //   state: 'Antioquia',
-      //   country: 'Colombia'
-      // }
-      // const city = await City.create(newCity)
-      return res.status(201).json(person)
+      return res.status(400).json('Event duplicated')
     } catch (error) {
       return res.status(500).json({ message: error.message })
     }
@@ -28,8 +18,45 @@ export class EventController {
 
   getAllEvents = async (req, res) => {
     try {
-      const people = await Person.find().populate('city').exec()
-      return res.status(200).json(people)
+      const event = await Event.find()
+      return res.status(200).json(event)
+    } catch (error) {
+      return res.status(500).json({ message: error.message })
+    }
+  }
+
+  getEvent = async (req, res) => {
+    try {
+      const { id } = req.params
+      const event = await Event.findById(id)
+      if (event) { return res.status(200).json(event) }
+      return res.status(404).json('Event not found')
+    } catch (error) {
+      return res.status(500).json({ message: error.message })
+    }
+  }
+
+  updateEvent = async (req, res) => {
+    try {
+      const { id } = req.params
+      const event = await Event.findByIdAndUpdate(id, req.body)
+      if (event) {
+        return res.status(200).json(event)
+      }
+      return res.status(404).json('Event not found')
+    } catch (error) {
+      return res.status(500).json({ message: error.message })
+    }
+  }
+
+  deleteEvent = async (req, res) => {
+    try {
+      const { id } = req.params
+      const event = await Event.findByIdAndDelete(id)
+      if (event) {
+        return res.status(200).json(event)
+      }
+      return res.status(404).json('Event not found')
     } catch (error) {
       return res.status(500).json({ message: error.message })
     }
